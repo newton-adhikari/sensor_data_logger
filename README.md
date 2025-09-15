@@ -107,9 +107,3 @@ ros2 run rviz2 rviz2
 - `colcon` build tool
 
 ---
-
-## 📫 Contact / Contributions
-
-Contributions are welcome! Please open an issue or submit a pull request if you'd like to enhance functionality or improve documentation.
-
----
