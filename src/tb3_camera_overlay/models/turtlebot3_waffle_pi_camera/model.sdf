@@ -1,0 +1,185 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="turtlebot3_waffle_pi_camera">
+    <!-- Base TurtleBot3 Waffle Pi -->
+    <include>
+      <uri>model://turtlebot3_waffle_pi</uri>
+    </include>
+
+    <!-- Extra Camera Link -->
+    <link name="camera_link">
+      <pose>0.15 0 0.25 0 0 0</pose>
+      <inertial>
+        <mass>0.1</mass>
+      </inertial>
+
+      <visual name="camera_visual">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.05</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.5 0.5 0.5 1</diffuse>
+        </material>
+      </visual>
+
+      <sensor name="rgb_camera" type="camera">
+        <pose>0 0 0 0 0 0</pose>
+        <always_on>1</always_on>
+        <visualize>1</visualize>
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.05</near>
+            <far>8.0</far>
+          </clip>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <ros>
+            <namespace>/</namespace>
+          </ros>
+          <frame_name>camera_link</frame_name>
+          <camera_name>camera</camera_name>
+          <update_rate>30.0</update_rate>
+          <image_topic_name>camera/image_raw</image_topic_name>
+          <camera_info_topic_name>camera/camera_info</camera_info_topic_name>
+        </plugin>
+      </sensor>
+    </link>
+
+
+    <!-- LiDAR Sensor -->
+    <link name="lidar_link">
+      <pose>0 0 0.15 0 0 0</pose>
+      <sensor name="lidar_sensor" type="ray">
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.12</min>
+            <max>3.5</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <plugin name="lidar_plugin" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <namespace>/</namespace>
+          </ros>
+          <frame_name>lidar_link</frame_name>
+          <topic_name>scan</topic_name>
+        </plugin>
+      </sensor>
+    </link>
+
+    <!-- IMU Sensor -->
+    <link name="imu_link">
+      <pose>0 0 0.1 0 0 0</pose>
+      <sensor name="imu_sensor" type="imu">
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+          <ros>
+            <namespace>/</namespace>
+          </ros>
+          <frame_name>imu_link</frame_name>
+          <topic_name>imu</topic_name>
+        </plugin>
+      </sensor>
+    </link>
+
+    <!-- obstacles -->
+    <model name="obstacle_ring">
+      <static>true</static>
+      <link name="ring_link">
+        <visual name="box_0">
+          <pose>0.6 0 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_0_collision">
+          <pose>0.6 0 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_1">
+          <pose>0.42 0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_1_collision">
+          <pose>0.42 0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_2">
+          <pose>0 0.6 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_2_collision">
+          <pose>0 0.6 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_3">
+          <pose>-0.42 0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_3_collision">
+          <pose>-0.42 0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_4">
+          <pose>-0.6 0 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_4_collision">
+          <pose>-0.6 0 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_5">
+          <pose>-0.42 -0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_5_collision">
+          <pose>-0.42 -0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_6">
+          <pose>0 -0.6 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_6_collision">
+          <pose>0 -0.6 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+
+        <visual name="box_7">
+          <pose>0.42 -0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </visual>
+        <collision name="box_7_collision">
+          <pose>0.42 -0.42 0.25 0 0 0</pose>
+          <geometry><box><size>0.2 0.2 0.5</size></box></geometry>
+        </collision>
+      </link>
+    </model>
+
+  </model>
+</sdf>
